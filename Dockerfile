@@ -10,9 +10,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# データベースの初期化
-# RUN python -c "from app import db; db.create_all()"
-
 # アプリケーションを起動
 CMD ["python", "app.py"]
 
