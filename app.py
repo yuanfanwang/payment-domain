@@ -4,9 +4,8 @@ from flask_cors import CORS
 from datetime import datetime
 
 app = Flask(__name__)
-# CORS(app)
+CORS(app)
 
-"""
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///payments.db'
 db = SQLAlchemy(app)
 
@@ -30,9 +29,8 @@ def create_payment():
         'product_id': payment.product_id,
         'timestamp': payment.timestamp.isoformat()
     }}), 201
-"""
 
 if __name__ == '__main__':
-    # with app.app_context():
-    #     db.create_all()
+    with app.app_context():
+        db.create_all()
     app.run(debug=True, host='0.0.0.0', port=5003)
