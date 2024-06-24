@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from datetime import datetime
+import requests
 
 app = Flask(__name__)
 CORS(app)
@@ -23,6 +24,19 @@ def create_payment():
     payment = Payment(user_id=data['user_id'], amount=data['amount'], product_id=data['product_id'])
     db.session.add(payment)
     db.session.commit()
+
+    # Call the update_model API
+    try:
+        response = requests.post('http://api-layer-ai:5004/update_model', json={
+            'user_id': payment.user_id,
+            'product_id': payment.product_id,
+            'amount': payment.amount
+        })
+        response_data = response.json()
+        update_status = response_data.get('message', 'Update failed')
+    except requests.exceptions.RequestException as e:
+        update_status = f'Update failed: {str(e)}'
+
     return jsonify({'message': 'Payment created', 'payment': {
         'id': payment.id,
         'user_id': payment.user_id,
