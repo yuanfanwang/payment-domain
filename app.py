@@ -27,7 +27,7 @@ def create_payment():
 
     # Call the update_model API
     try:
-        response = requests.post('http://api-layer-ai:5004/update_model', json={
+        response = requests.post('http://api-layer-ai:5004/api/update_model', json={
             'user_id': payment.user_id,
             'product_id': payment.product_id,
             'amount': payment.amount
